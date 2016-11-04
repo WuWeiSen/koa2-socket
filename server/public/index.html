@@ -11,10 +11,45 @@
   <button id="add">add user</button>
   <ul id="user-list">
   </ul>
+  <br>
+  <div id="btn-wrap">
+    <button 
+    class="btnTest" 
+    data-event="newPlanEvent">newPlanEvent</button>
+
+    <button 
+      class="btnTest" 
+      data-event="newSchemeEvent">newSchemeEvent</button>
+
+    <button 
+      class="btnTest" 
+      data-event="schemeChatEvent">schemeChatEvent</button>
+
+    <button 
+      class="btnTest" 
+      data-event="planChatEvent">planChatEvent</button>
+
+    <button 
+      class="btnTest" 
+      data-event="satisfactionSchemeEvent">satisfactionSchemeEvent</button>
+
+    <button 
+      class="btnTest" 
+      data-event="unsatisfactionSchemeEvent">unsatisfactionSchemeEvent</button>
+
+    <button 
+      class="btnTest" 
+      data-event="payOrderEvent">payOrderEvent</button>
+
+      <button 
+      class="btnTest" 
+      data-event="applyChangeOrderEvent">applyChangeOrderEvent</button>
+  </div>
+
   <script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
   <script>
   (function() {
-    var socket = io('http://localhost:3000')
+    window.socket = io('http://localhost:3000')
     var addBtn = document.querySelector('#add')
     var $input = document.querySelector('#name')
     var $userList = document.querySelector('#user-list')
@@ -62,7 +97,17 @@
       }
       $userList.appendChild($fragment)
     }
-    
+  })();
+  (function() {
+    var $btnWrap = document.querySelector('#btn-wrap')
+    $btnWrap.addEventListener('click', function(evt) {
+      var target = evt.target
+      if(target.classList.contains('btnTest')) {
+        var socketEvent = target.dataset.event
+        socket.emit(socketEvent, socketEvent)
+        console.log(socketEvent + '   done!')
+      }
+    })
   })()
   </script>
 </body>
